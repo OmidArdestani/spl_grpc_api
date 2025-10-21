@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package spl;
+
+// Service definition for SPL Repository
+service SPLRepository {
+  // Find an item by its ID
+  rpc FindItem(FindItemRequest) returns (FindItemResponse);
+  
+  // Validate an item
+  rpc ValidateItem(ValidateItemRequest) returns (ValidateItemResponse);
+  
+  // Modify an item
+  rpc ModifyItem(ModifyItemRequest) returns (ModifyItemResponse);
+}
+
+// Request message for FindItem
+message FindItemRequest {
+  string item_id = 1;
+}
+
+// Response message for FindItem
+message FindItemResponse {
+  ItemObject item = 1;
+  bool found = 2;
+  string message = 3;
+}
+
+// Item object definition
+message ItemObject {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  map<string, string> properties = 4;
+  int64 created_at = 5;
+  int64 updated_at = 6;
+}
+
+// Request message for ValidateItem
+message ValidateItemRequest {
+  string item_id = 1;
+}
+
+// Response message for ValidateItem
+message ValidateItemResponse {
+  bool is_valid = 1;
+  string message = 2;
+  repeated string validation_errors = 3;
+}
+
+// Request message for ModifyItem
+message ModifyItemRequest {
+  string item_id = 1;
+  string name = 2;
+  string description = 3;
+  map<string, string> properties = 4;
+}
+
+// Response message for ModifyItem
+message ModifyItemResponse {
+  bool success = 1;
+  string message = 2;
+  ItemObject modified_item = 3;
+}
